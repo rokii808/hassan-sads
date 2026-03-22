@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { adminListSubmissions, getResearchCohort } from '@hassan-sads/db';
 

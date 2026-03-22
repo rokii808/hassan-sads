@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { adminListSubmissions } from '@hassan-sads/db';
 import type { RiskLevel } from '@hassan-sads/db';

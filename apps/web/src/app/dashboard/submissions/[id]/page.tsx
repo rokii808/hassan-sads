@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { notFound } from 'next/navigation';
 import type { QuestionnaireSubmission, QuestionResponse } from '@hassan-sads/db';
