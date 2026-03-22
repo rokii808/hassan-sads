@@ -1,30 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-navy: #0A1628;
-  --color-gold: #C9A84C;
-  --color-teal: #0F6E56;
-  --color-coral: #C04828;
-  --color-amber: #BA7517;
-  --color-surface: #F8F9FB;
-  --color-card: #FFFFFF;
-  --color-text-primary: #0A1628;
-  --color-text-secondary: #5F5E5A;
-  --color-border: #E2E4E9;
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --blue: #1A6FFF;
+  --blue-lt: #EEF4FF;
+  --blue-mid: #DBEAFE;
+  --orange: #FF6B35;
+  --orange-lt: #FFF3EE;
+  --black: #0D0D0D;
+  --body: #4A4A5A;
+  --muted: #9898A8;
+  --border: #E8E8F0;
+  --surface: #F6F6FA;
+  --white: #FFFFFF;
+  --green: #12B76A;
+  --green-lt: #ECFDF5;
+  --red: #EF4444;
+  --amber: #F59E0B;
+  --amber-lt: #FFFBEB;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
+
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
-  font-family: var(--font-body);
-  background-color: var(--color-surface);
-  color: var(--color-text-primary);
+  font-family: var(--font);
+  background: var(--surface);
+  color: var(--black);
+  margin: 0;
 }
 
-h1, h2, h3 {
-  font-family: var(--font-display);
+h1, h2, h3, h4 {
+  font-family: var(--font);
 }
