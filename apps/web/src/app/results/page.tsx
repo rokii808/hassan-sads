@@ -1,137 +1,78 @@
-
-import PhoneFrame from '@/components/PhoneFrame';
+import AppShell from '@/components/AppShell';
 
 export const metadata = { title: 'HeartGuard — Your Cardiac Risk Report' };
 
 function EcgLine() {
   return (
-    <svg viewBox="0 0 280 60" fill="none" style={{ width: '100%', height: 60 }}>
-      <path
-        d="M0 30 L30 30 L42 30 L50 30 L56 12 L62 48 L68 18 L74 30 L86 30 L92 30 L98 30 L104 30 L108 8 L112 52 L116 28 L120 30 L140 30 L150 30 L158 14 L164 46 L170 20 L176 30 L196 30 L204 30 L210 30 L216 10 L220 50 L224 26 L228 30 L260 30 L280 30"
-        stroke="#FF6B35"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 320 60" fill="none" style={{ width: '100%', height: 56 }}>
+      <path d="M0 30 L35 30 L48 30 L58 30 L65 10 L72 50 L79 18 L86 30 L105 30 L115 30 L122 30 L130 30 L136 6 L141 54 L146 24 L151 30 L178 30 L190 30 L200 12 L207 48 L214 20 L220 30 L245 30 L257 30 L265 30 L272 8 L278 52 L283 26 L288 30 L320 30"
+        stroke="#FF6B35" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
 export default function ResultsPage() {
   return (
-    <PhoneFrame>
-      {/* Back */}
-      <div style={{ padding: '12px 24px 0' }}>
-        <a href="/questionnaire" style={{ color: '#0D0D0D', fontSize: 20, textDecoration: 'none' }}>‹</a>
-      </div>
+    <AppShell activeNav="results">
+      <div className="app-card">
+        <a href="/questionnaire" style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, textDecoration: 'none', display: 'inline-block', marginBottom: 20 }}>← Back</a>
 
-      <div style={{ flex: 1, padding: '16px 24px 32px', overflowY: 'auto' }}>
-        {/* Title */}
-        <h1 style={{ fontSize: 22, fontWeight: 800, color: '#0D0D0D', lineHeight: 1.2, marginBottom: 4 }}>
-          Your Cardiac{' '}
-          <span style={{ color: '#FF6B35' }}>Risk<br />Report</span>
+        <h1 style={{ fontSize: 22, fontWeight: 800, color: 'var(--black)', lineHeight: 1.2, marginBottom: 4, letterSpacing: '-0.02em' }}>
+          Your Cardiac <span style={{ color: 'var(--orange)' }}>Risk Report</span>
         </h1>
-        <p style={{ fontSize: 12, color: '#9898A8', marginBottom: 20 }}>
-          HeartGuard SADS screening — 5 October 2025
-        </p>
+        <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 24 }}>HeartGuard SADS screening — 5 October 2025</p>
 
-        {/* Risk Level Card */}
-        <div style={{
-          border: '1.5px solid #E8E8F0', borderRadius: 16, padding: '18px 18px 16px',
-          marginBottom: 14, background: '#fff',
-        }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#9898A8', letterSpacing: 0.8, marginBottom: 8, textTransform: 'uppercase' }}>
-            Risk Level
-          </p>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+        {/* Risk card */}
+        <div style={{ border: '1.5px solid var(--border)', borderRadius: 16, padding: '20px', marginBottom: 14 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>Risk Level</p>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 8 }}>
             <div>
-              <span style={{ fontSize: 48, fontWeight: 800, color: '#FF6B35', lineHeight: 1 }}>Med</span>
-              <span style={{ fontSize: 24, fontWeight: 700, color: '#FF6B35' }}>ium</span>
+              <span style={{ fontSize: 44, fontWeight: 800, color: 'var(--orange)', lineHeight: 1 }}>Med</span>
+              <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--orange)' }}>ium</span>
             </div>
-            <div style={{
-              background: '#FF6B35', color: '#fff', padding: '6px 12px',
-              borderRadius: 20, fontSize: 12, fontWeight: 800, letterSpacing: 0.3,
-            }}>
-              SEE GP
-            </div>
+            <div style={{ background: 'var(--orange)', color: '#fff', padding: '7px 14px', borderRadius: 20, fontSize: 12, fontWeight: 800 }}>SEE GP</div>
           </div>
-          <p style={{ fontSize: 12, color: '#4A4A5A', marginTop: 8, marginBottom: 14 }}>
-            2 of 7 key flags detected
-          </p>
+          <p style={{ fontSize: 12, color: 'var(--body)', marginBottom: 14 }}>2 of 7 key flags detected</p>
 
-          {/* Flag pills */}
           <div style={{ display: 'flex', gap: 8 }}>
-            <div style={{ background: '#FFF3EE', border: '1px solid #FFCFB8', borderRadius: 8, padding: '6px 10px', textAlign: 'center' }}>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#FF6B35', marginBottom: 2 }}>Q11</p>
-              <p style={{ fontSize: 10, color: '#9898A8' }}>Syncope</p>
-            </div>
-            <div style={{ background: '#FFF3EE', border: '1px solid #FFCFB8', borderRadius: 8, padding: '6px 10px', textAlign: 'center' }}>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#FF6B35', marginBottom: 2 }}>Q15</p>
-              <p style={{ fontSize: 10, color: '#9898A8' }}>Family Hx</p>
-            </div>
-            <div style={{ background: '#F6F6FA', border: '1px solid #E8E8F0', borderRadius: 8, padding: '6px 10px', textAlign: 'center', flex: 1 }}>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#12B76A', marginBottom: 2 }}>None</p>
-              <p style={{ fontSize: 10, color: '#9898A8' }}>ECG flag</p>
-            </div>
+            {[{ label: 'Q11', sub: 'Syncope', orange: true }, { label: 'Q15', sub: 'Family Hx', orange: true }, { label: 'None', sub: 'ECG flag', green: true }].map(c => (
+              <div key={c.label} className="chip" style={{ background: c.orange ? 'var(--orange-lt)' : c.green ? '#ECFDF5' : 'var(--surface)', border: `1px solid ${c.orange ? '#FFCFB8' : c.green ? '#A7F3D0' : 'var(--border)'}`, flex: c.green ? 1 : undefined }}>
+                <div className="chip-label" style={{ color: c.orange ? 'var(--orange)' : c.green ? 'var(--green)' : 'var(--black)' }}>{c.label}</div>
+                <div className="chip-sub">{c.sub}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Cardiac Trend Card */}
-        <div style={{ border: '1.5px solid #E8E8F0', borderRadius: 16, padding: '16px', marginBottom: 14, background: '#fff' }}>
-          <p style={{ fontSize: 13, fontWeight: 700, color: '#0D0D0D', marginBottom: 10 }}>Today&apos;s Cardiac Trend</p>
-
-          {/* Day/Week tabs */}
-          <div style={{ display: 'flex', gap: 6, marginBottom: 14 }}>
-            {['Day', 'Week', 'Month', 'Year'].map((tab) => (
-              <button key={tab} style={{
-                padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600,
-                background: tab === 'Day' ? '#1A6FFF' : 'transparent',
-                color: tab === 'Day' ? '#fff' : '#9898A8',
-                border: 'none', cursor: 'pointer', fontFamily: 'var(--font)',
-              }}>{tab}</button>
+        {/* ECG chart */}
+        <div style={{ border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px', marginBottom: 14 }}>
+          <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--black)', marginBottom: 10 }}>Today&apos;s Cardiac Trend</p>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
+            {['Day', 'Week', 'Month', 'Year'].map(t => (
+              <button key={t} style={{ padding: '4px 12px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: t === 'Day' ? 'var(--blue)' : 'transparent', color: t === 'Day' ? '#fff' : 'var(--muted)', border: 'none', cursor: 'pointer', fontFamily: 'var(--font)' }}>{t}</button>
             ))}
           </div>
-
           <EcgLine />
-
-          {/* Day labels */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
-              <span key={d} style={{ fontSize: 10, color: '#9898A8' }}>{d}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
+              <span key={d} style={{ fontSize: 10, color: 'var(--muted)' }}>{d}</span>
             ))}
           </div>
         </div>
 
         {/* Irish Heart Foundation */}
-        <div style={{ border: '1.5px solid #E8E8F0', borderRadius: 16, padding: '14px 16px', marginBottom: 20, background: '#fff', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#FF6B35', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: 18 }}>🫀</span>
+        <div style={{ border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--orange)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🫀</div>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--black)', marginBottom: 2 }}>Irish Heart Foundation</p>
+            <p style={{ fontSize: 12, color: 'var(--muted)' }}>SADS family support &amp; referral</p>
           </div>
-          <div>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#0D0D0D', marginBottom: 2 }}>Irish Heart Foundation</p>
-            <p style={{ fontSize: 12, color: '#9898A8' }}>SADS family support &amp; referral</p>
-          </div>
-          <span style={{ marginLeft: 'auto', color: '#9898A8' }}>›</span>
+          <span style={{ color: 'var(--muted)' }}>›</span>
         </div>
 
-        {/* Action buttons */}
-        <button style={{
-          width: '100%', padding: '15px', background: '#1A6FFF',
-          color: '#fff', border: 'none', borderRadius: 50,
-          fontSize: 14, fontWeight: 800, cursor: 'pointer',
-          letterSpacing: 0.3, fontFamily: 'var(--font)', marginBottom: 10,
-        }}>
-          DOWNLOAD REFERRAL REPORT
-        </button>
-        <button style={{
-          width: '100%', padding: '15px', background: '#fff',
-          color: '#0D0D0D', border: '2px solid #E8E8F0', borderRadius: 50,
-          fontSize: 14, fontWeight: 700, cursor: 'pointer',
-          letterSpacing: 0.3, fontFamily: 'var(--font)',
-        }}>
-          WITHDRAW MY DATA
-        </button>
+        <button className="btn-primary" style={{ marginBottom: 10 }}>Download Referral Report</button>
+        <button className="btn-outline">Withdraw My Data</button>
       </div>
-    </PhoneFrame>
+    </AppShell>
   );
 }
