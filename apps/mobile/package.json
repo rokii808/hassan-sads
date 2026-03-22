@@ -1,0 +1,38 @@
+{
+  "name": "@hassan-sads/mobile",
+  "version": "0.0.1",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "type-check": "tsc --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^14.0.0",
+    "@hassan-sads/db": "workspace:*",
+    "@hassan-sads/questionnaire": "workspace:*",
+    "@hassan-sads/ui": "workspace:*",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@supabase/supabase-js": "^2.43.0",
+    "expo": "~51.0.0",
+    "expo-font": "~12.0.0",
+    "expo-linking": "~6.3.0",
+    "expo-router": "~3.5.0",
+    "expo-status-bar": "~1.12.0",
+    "expo-constants": "~16.0.0",
+    "expo-notifications": "~0.28.0",
+    "react": "18.2.0",
+    "react-native": "0.74.0",
+    "nativewind": "^4.0.0",
+    "zustand": "^4.5.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@types/react": "~18.2.79",
+    "typescript": "^5.4.5"
+  }
+}

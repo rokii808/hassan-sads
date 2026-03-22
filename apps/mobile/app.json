@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Hassan SADS",
+    "slug": "hassan-sads",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "hassansads",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A1628"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "ie.hassansads.app",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A1628"
+      },
+      "package": "ie.hassansads.app",
+      "versionCode": 1,
+      "permissions": ["NOTIFICATIONS"]
+    },
+    "plugins": [
+      "expo-router",
+      ["expo-notifications", { "icon": "./assets/notification-icon.png", "color": "#0A1628" }]
+    ],
+    "experiments": { "typedRoutes": true }
+  }
+}

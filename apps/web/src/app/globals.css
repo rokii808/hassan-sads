@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy: #0A1628;
+  --color-gold: #C9A84C;
+  --color-teal: #0F6E56;
+  --color-coral: #C04828;
+  --color-amber: #BA7517;
+  --color-surface: #F8F9FB;
+  --color-card: #FFFFFF;
+  --color-text-primary: #0A1628;
+  --color-text-secondary: #5F5E5A;
+  --color-border: #E2E4E9;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+}
