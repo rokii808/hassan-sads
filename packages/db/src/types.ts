@@ -78,32 +78,40 @@ export interface Database {
         Row: Participant;
         Insert: Omit<Participant, 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Omit<Participant, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       questionnaire_submissions: {
         Row: QuestionnaireSubmission;
         Insert: Omit<QuestionnaireSubmission, 'id' | 'created_at'>;
         Update: Partial<Omit<QuestionnaireSubmission, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       question_responses: {
         Row: QuestionResponse;
         Insert: Omit<QuestionResponse, 'id' | 'created_at'>;
         Update: never;
+        Relationships: [];
       };
       gp_referrals: {
         Row: GpReferral;
         Insert: Omit<GpReferral, 'id' | 'created_at'>;
         Update: Pick<GpReferral, 'acknowledged_at'>;
+        Relationships: [];
       };
       consent_events: {
         Row: ConsentEvent;
         Insert: Omit<ConsentEvent, 'id'>;
         Update: never;
+        Relationships: [];
       };
       research_cohort: {
         Row: ResearchCohortRow;
         Insert: Omit<ResearchCohortRow, 'id' | 'created_at'>;
         Update: never;
+        Relationships: [];
       };
     };
+    Views: Record<never, never>;
+    Functions: Record<never, never>;
   };
 }
