@@ -30,14 +30,24 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
   const limit = 20;
   const offset = (page - 1) * limit;
 
-  const supabase = createServiceRoleClient();
-  const { data: submissions, count } = await adminListSubmissions(supabase, {
-    riskLevel: searchParams.risk as RiskLevel | undefined,
-    from: searchParams.from,
-    to: searchParams.to,
-    limit,
-    offset,
-  });
+  let submissions: Awaited<ReturnType<typeof adminListSubmissions>>['data'] = null;
+  let count: number | null = 0;
+  let dbError = false;
+
+  try {
+    const supabase = createServiceRoleClient();
+    const result = await adminListSubmissions(supabase, {
+      riskLevel: searchParams.risk as RiskLevel | undefined,
+      from: searchParams.from,
+      to: searchParams.to,
+      limit,
+      offset,
+    });
+    submissions = result.data;
+    count = result.count;
+  } catch {
+    dbError = true;
+  }
 
   const totalPages = Math.ceil((count ?? 0) / limit);
 
@@ -63,6 +73,15 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
           Export Data
         </a>
       </div>
+
+      {dbError && (
+        <div style={{ marginBottom: 20, padding: '12px 18px', background: '#FFFBEB', border: '1.5px solid #F59E0B44', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 16 }}>⚠️</span>
+          <span style={{ fontSize: 13, color: '#92400E', fontWeight: 600 }}>
+            Database not connected — add <code style={{ background: '#FEF3C7', padding: '1px 5px', borderRadius: 4 }}>SUPABASE_*</code> env vars in Vercel to see live data.
+          </span>
+        </div>
+      )}
 
       {/* Filters */}
       <form method="GET" style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap', alignItems: 'center' }}>

@@ -22,13 +22,19 @@ function RiskBadge({ level }: { level: string }) {
 }
 
 export default async function SubmissionDetailPage({ params }: { params: { id: string } }) {
-  const supabase = createServiceRoleClient();
-  const { data: rawSubmission } = await supabase
-    .from('questionnaire_submissions')
-    .select('*, question_responses(*)')
-    .eq('id', params.id)
-    .single();
-  const submission = rawSubmission as (QuestionnaireSubmission & { question_responses: QuestionResponse[] }) | null;
+  let submission: (QuestionnaireSubmission & { question_responses: QuestionResponse[] }) | null = null;
+
+  try {
+    const supabase = createServiceRoleClient();
+    const { data: rawSubmission } = await supabase
+      .from('questionnaire_submissions')
+      .select('*, question_responses(*)')
+      .eq('id', params.id)
+      .single();
+    submission = rawSubmission as (QuestionnaireSubmission & { question_responses: QuestionResponse[] }) | null;
+  } catch {
+    notFound();
+  }
 
   if (!submission) notFound();
 

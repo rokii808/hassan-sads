@@ -4,15 +4,24 @@ import { createServiceRoleClient } from '@/lib/supabase-server';
 import { adminListSubmissions, getResearchCohort } from '@hassan-sads/db';
 
 export default async function DashboardPage() {
-  const supabase = createServiceRoleClient();
-  const [{ data: recent, count: totalCount }, { data: cohort }] = await Promise.all([
-    adminListSubmissions(supabase, { limit: 5 }),
-    getResearchCohort(supabase),
-  ]);
+  let recent: Awaited<ReturnType<typeof adminListSubmissions>>['data'] = null;
+  let totalCount: number | null = 0;
+  let riskCounts = { high: 0, moderate: 0, low: 0 };
+  let dbError = false;
 
-  const riskCounts = { high: 0, moderate: 0, low: 0 };
-  for (const row of cohort ?? []) {
-    riskCounts[row.risk_level as keyof typeof riskCounts]++;
+  try {
+    const supabase = createServiceRoleClient();
+    const [submissionsResult, cohortResult] = await Promise.all([
+      adminListSubmissions(supabase, { limit: 5 }),
+      getResearchCohort(supabase),
+    ]);
+    recent = submissionsResult.data;
+    totalCount = submissionsResult.count;
+    for (const row of cohortResult.data ?? []) {
+      riskCounts[row.risk_level as keyof typeof riskCounts]++;
+    }
+  } catch {
+    dbError = true;
   }
 
   return (
@@ -29,6 +38,15 @@ export default async function DashboardPage() {
           Hassan SADS Cardiac Screening — Ireland
         </p>
       </div>
+
+      {dbError && (
+        <div style={{ marginBottom: 24, padding: '12px 18px', background: '#FFFBEB', border: '1.5px solid #F59E0B44', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 16 }}>⚠️</span>
+          <span style={{ fontSize: 13, color: '#92400E', fontWeight: 600 }}>
+            Database not connected — add <code style={{ background: '#FEF3C7', padding: '1px 5px', borderRadius: 4 }}>SUPABASE_*</code> env vars in Vercel to see live data.
+          </span>
+        </div>
+      )}
 
       {/* Stat cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 32 }}>
