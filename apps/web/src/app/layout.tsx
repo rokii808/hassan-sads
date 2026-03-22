@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'HeartGuard SADS — Admin Portal',
-  description: 'Researcher and clinician dashboard for the HeartGuard SADS cardiac screening platform.',
+  title: 'HeartGuard — Cardiac Screening',
+  description: 'HeartGuard screens for SADS risk. A few questions could save a life.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body style={{ margin: 0, background: '#0E0E22' }}>{children}</body>
     </html>
   );
 }

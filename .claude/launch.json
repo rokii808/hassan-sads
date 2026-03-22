@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Web (Next.js)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["pnpm@9.1.4", "--filter", "web", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "Mobile (Expo)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["pnpm@9.1.4", "--filter", "mobile", "start"],
+      "port": 8081
+    }
+  ]
+}
