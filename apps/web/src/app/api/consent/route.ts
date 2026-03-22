@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   const ipHash = crypto.createHash('sha256').update(request.headers.get('x-forwarded-for') ?? 'unknown').digest('hex');
 
   if (action === 'opt_out') {
-    await supabase.from('participants').update({ opted_out_at: new Date().toISOString() }).eq('id', participantId);
+    await supabase.from('participants').update({ opted_out_at: new Date().toISOString() } as Record<string, unknown>).eq('id', participantId);
   } else {
     // Full GDPR withdrawal — delete PII, keep anonymised research record
     await supabase.from('participants').update({
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       full_name: '[Withdrawn]',
       date_of_birth: '1900-01-01',
       withdrawn_at: new Date().toISOString(),
-    }).eq('id', participantId);
+    } as Record<string, unknown>).eq('id', participantId);
   }
 
   await supabase.from('consent_events').insert({
