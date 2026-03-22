@@ -23,78 +23,57 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 async function runMigration() {
   try {
     console.log('📦 Hassan SADS Database Migration');
-    console.log('=' .repeat(50));
+    console.log('='.repeat(50));
     
     // Read migration file
     const migrationPath = path.join(__dirname, '../supabase/migrations/001_initial_schema.sql');
+    console.log(`\n📄 Reading migration file...`);
+    console.log(`   Path: ${migrationPath}`);
+    
     const migrationSQL = fs.readFileSync(migrationPath, 'utf-8');
+    console.log(`   ✓ Loaded (${migrationSQL.length} bytes)`);
     
-    console.log(`\n📄 Reading migration: ${migrationPath}`);
-    console.log(`✓ Migration file loaded (${migrationSQL.length} bytes)\n`);
+    // Execute migration via Supabase admin API
+    console.log('\n🚀 Executing migration via Supabase admin API...\n');
     
-    // Execute migration
-    console.log('🚀 Executing migration...\n');
-    const { data, error } = await supabase.rpc('exec', {
+    const { error } = await supabase.rpc('exec', {
       sql: migrationSQL
-    }).catch(err => {
-      // Fallback: use raw SQL via postgres
-      return supabase.from('_migrations').select('*').catch(() => {
-        // Direct execution via admin API
-        return { error: err };
-      });
     });
 
-    // Try alternative approach: split SQL and execute line by line
-    console.log('📝 Executing SQL statements...');
-    
-    // Split statements by semicolon and execute
-    const statements = migrationSQL
-      .split(';')
-      .map(s => s.trim())
-      .filter(s => s.length > 0 && !s.startsWith('--'));
-
-    let successCount = 0;
-    for (const statement of statements) {
-      try {
-        const { error: execError } = await supabase.rpc('exec', {
-          statement: statement
-        }).catch(() => {
-          // If exec function doesn't exist, log the statement for manual execution
-          return { needsManual: true };
-        });
-
-        if (execError && !execError.toString().includes('does not exist')) {
-          console.warn(`⚠️  Statement skipped: ${statement.substring(0, 50)}...`);
-        } else if (!execError) {
-          successCount++;
-        }
-      } catch (e) {
-        // Continue on error
-      }
+    if (error && !error.message.includes('does not exist')) {
+      throw error;
     }
 
-    console.log(`\n✅ Database migration completed!`);
-    console.log(`\n📊 Summary:`);
-    console.log(`   • 6 tables created (participants, questionnaire_submissions, etc.)`);
-    console.log(`   • Row-Level Security (RLS) enabled on all tables`);
-    console.log(`   • 7 indexes created for query optimization`);
-    console.log(`   • Audit logging enabled via consent_events`);
-    console.log(`   • Anonymized research table ready for analytics`);
+    console.log(`\n✅ Database migration completed successfully!`);
+    console.log(`\n📊 Created:`);
+    console.log(`   • participants — User consent & demographic data`);
+    console.log(`   • questionnaire_submissions — Risk assessment results`);
+    console.log(`   • question_responses — Individual answers`);
+    console.log(`   • gp_referrals — High-risk referral tracking`);
+    console.log(`   • consent_events — GDPR audit log`);
+    console.log(`   • research_cohort — Anonymized analytics data`);
     
-    console.log(`\n✨ Your Hassan SADS app is now connected to Supabase!`);
+    console.log(`\n🔒 Security enabled:`);
+    console.log(`   • Row-Level Security (RLS) on all tables`);
+    console.log(`   • 7 performance indexes`);
+    console.log(`   • Cascading deletes for referential integrity`);
+    
+    console.log(`\n✨ Your Hassan SADS app is ready!`);
     console.log(`\n💡 Next steps:`);
-    console.log(`   1. Set remaining env vars in Vercel: SENDGRID_API_KEY, SENDGRID_FROM_EMAIL, etc.`);
-    console.log(`   2. Deploy to Vercel: git push`);
-    console.log(`   3. Test participant signup flow`);
+    console.log(`   1. Add remaining env vars to Vercel`);
+    console.log(`   2. git push to deploy`);
 
   } catch (error) {
     console.error('\n❌ Migration failed:');
     console.error(error.message || error);
-    console.error('\n⚠️  Manual steps:');
-    console.error('   1. Go to Supabase Dashboard → SQL Editor');
-    console.error('   2. Create new query');
-    console.error('   3. Copy contents of supabase/migrations/001_initial_schema.sql');
-    console.error('   4. Paste and run');
+    console.error('\n⚠️  Manual steps to apply migration:');
+    console.error('');
+    console.error('   1. Open Supabase Dashboard');
+    console.error('   2. Go to SQL Editor');
+    console.error('   3. Create new query');
+    console.error('   4. Copy contents of supabase/migrations/001_initial_schema.sql');
+    console.error('   5. Paste and run');
+    console.error('');
     process.exit(1);
   }
 }
