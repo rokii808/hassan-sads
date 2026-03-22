@@ -4,7 +4,7 @@ export type RiskLevel = 'low' | 'moderate' | 'high';
 export type AgeBand = '12-17' | '18-25' | '26-35' | '36+';
 export type ConsentEventType = 'consent_given' | 'opt_out' | 'withdraw' | 'data_exported';
 
-export interface Participant {
+export type Participant = {
   id: string;
   email: string;
   full_name: string;
@@ -17,9 +17,9 @@ export interface Participant {
   parent_consent_given_at: string | null;
   created_at: string;
   updated_at: string;
-}
+};
 
-export interface QuestionnaireSubmission {
+export type QuestionnaireSubmission = {
   id: string;
   participant_id: string;
   submitted_at: string;
@@ -28,36 +28,36 @@ export interface QuestionnaireSubmission {
   referral_triggered: boolean;
   pdf_url: string | null;
   created_at: string;
-}
+};
 
-export interface QuestionResponse {
+export type QuestionResponse = {
   id: string;
   submission_id: string;
   question_id: string;
   answer_value: string;
   is_flag: boolean;
   created_at: string;
-}
+};
 
-export interface GpReferral {
+export type GpReferral = {
   id: string;
   submission_id: string;
   gp_email: string;
   sent_at: string | null;
   acknowledged_at: string | null;
   created_at: string;
-}
+};
 
-export interface ConsentEvent {
+export type ConsentEvent = {
   id: string;
   participant_id: string;
   event_type: ConsentEventType;
   timestamp: string;
   ip_hash: string | null;
   metadata: Record<string, unknown> | null;
-}
+};
 
-export interface ResearchCohortRow {
+export type ResearchCohortRow = {
   id: string;
   age_band: AgeBand;
   sex: string;
@@ -68,10 +68,10 @@ export interface ResearchCohortRow {
   submitted_month: string; // YYYY-MM
   exercise_hours_band: string | null;
   created_at: string;
-}
+};
 
 /** Database schema type — mirrors Supabase generated types */
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       participants: {
@@ -89,7 +89,7 @@ export interface Database {
       question_responses: {
         Row: QuestionResponse;
         Insert: Omit<QuestionResponse, 'id' | 'created_at'>;
-        Update: never;
+        Update: Record<string, never>;
         Relationships: [];
       };
       gp_referrals: {
@@ -101,17 +101,17 @@ export interface Database {
       consent_events: {
         Row: ConsentEvent;
         Insert: Omit<ConsentEvent, 'id'>;
-        Update: never;
+        Update: Record<string, never>;
         Relationships: [];
       };
       research_cohort: {
         Row: ResearchCohortRow;
         Insert: Omit<ResearchCohortRow, 'id' | 'created_at'>;
-        Update: never;
+        Update: Record<string, never>;
         Relationships: [];
       };
     };
-    Views: Record<never, never>;
-    Functions: Record<never, never>;
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
   };
-}
+};

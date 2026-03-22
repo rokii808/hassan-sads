@@ -1,5 +1,5 @@
 import type { TypedSupabaseClient } from './client';
-import type { RiskLevel } from './types';
+import type { RiskLevel, QuestionnaireSubmission, ResearchCohortRow, AgeBand } from './types';
 
 /** Fetch a participant's own record (participant JWT) */
 export async function getParticipant(client: TypedSupabaseClient, participantId: string) {
@@ -50,7 +50,7 @@ export async function adminListSubmissions(
 
   const { data, error, count } = await query;
   if (error) throw error;
-  return { data, count };
+  return { data: data as unknown as QuestionnaireSubmission[] | null, count };
 }
 
 /** Research cohort query — NO PII */
@@ -65,10 +65,10 @@ export async function getResearchCohort(
   if (options.from) query = query.gte('submitted_month', options.from);
   if (options.to) query = query.lte('submitted_month', options.to);
   if (options.ageBand && options.ageBand !== 'all') {
-    query = query.eq('age_band', options.ageBand);
+    query = query.eq('age_band', options.ageBand as AgeBand);
   }
 
   const { data, error, count } = await query;
   if (error) throw error;
-  return { data, count };
+  return { data: data as unknown as ResearchCohortRow[] | null, count };
 }

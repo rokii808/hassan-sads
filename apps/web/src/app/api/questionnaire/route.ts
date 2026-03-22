@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import { scoreQuestionnaire } from '@/lib/scoring';
+import type { QuestionnaireSubmission } from '@hassan-sads/db';
 
 const AnswerSchema = z.object({
   questionId: z.string().min(1),
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
   const scoring = scoreQuestionnaire(answers);
 
   // Insert submission
-  const { data: submission, error: submissionError } = await supabase
+  const { data: rawSubmission, error: submissionError } = await supabase
     .from('questionnaire_submissions')
     .insert({
       participant_id: participantId,
@@ -71,6 +72,7 @@ export async function POST(request: NextRequest) {
     })
     .select()
     .single();
+  const submission = rawSubmission as QuestionnaireSubmission | null;
 
   if (submissionError || !submission) {
     return NextResponse.json({ error: 'Failed to save submission.' }, { status: 500 });

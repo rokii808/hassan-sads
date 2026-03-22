@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { createSupabaseServerClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { getResearchCohort } from '@hassan-sads/db';
 
 export async function GET(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
-  const { data: { session } } = await supabase.auth.getSession();
+  const authClient = createSupabaseServerClient();
+  const { data: { session } } = await authClient.auth.getSession();
   if (!session) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
   const to = searchParams.get('to') ?? undefined;
   const ageBand = searchParams.get('age_band') ?? undefined;
 
+  const supabase = createServiceRoleClient();
   const { data } = await getResearchCohort(supabase, { from, to, ageBand });
 
   if (format === 'json') {

@@ -1,12 +1,13 @@
-import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { createSupabaseServerClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { redirect } from 'next/navigation';
 import { adminListSubmissions, getResearchCohort } from '@hassan-sads/db';
 
 export default async function DashboardPage() {
-  const supabase = createSupabaseServerClient();
-  const { data: { session } } = await supabase.auth.getSession();
+  const authClient = createSupabaseServerClient();
+  const { data: { session } } = await authClient.auth.getSession();
   if (!session) redirect('/login');
 
+  const supabase = createServiceRoleClient();
   const [{ data: recent, count: totalCount }, { data: cohort }] = await Promise.all([
     adminListSubmissions(supabase, { limit: 5 }),
     getResearchCohort(supabase),

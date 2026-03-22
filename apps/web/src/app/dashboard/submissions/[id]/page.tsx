@@ -1,16 +1,19 @@
-import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { createSupabaseServerClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { redirect, notFound } from 'next/navigation';
+import type { QuestionnaireSubmission, QuestionResponse } from '@hassan-sads/db';
 
 export default async function SubmissionDetailPage({ params }: { params: { id: string } }) {
-  const supabase = createSupabaseServerClient();
-  const { data: { session } } = await supabase.auth.getSession();
+  const authClient = createSupabaseServerClient();
+  const { data: { session } } = await authClient.auth.getSession();
   if (!session) redirect('/login');
 
-  const { data: submission } = await supabase
+  const supabase = createServiceRoleClient();
+  const { data: rawSubmission } = await supabase
     .from('questionnaire_submissions')
     .select('*, question_responses(*)')
     .eq('id', params.id)
     .single();
+  const submission = rawSubmission as (QuestionnaireSubmission & { question_responses: QuestionResponse[] }) | null;
 
   if (!submission) notFound();
 

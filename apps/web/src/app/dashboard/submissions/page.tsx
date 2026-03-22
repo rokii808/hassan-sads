@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { createSupabaseServerClient, createServiceRoleClient } from '@/lib/supabase-server';
 import { redirect } from 'next/navigation';
 import { adminListSubmissions } from '@hassan-sads/db';
 import type { RiskLevel } from '@hassan-sads/db';
@@ -11,14 +11,15 @@ interface SearchParams {
 }
 
 export default async function SubmissionsPage({ searchParams }: { searchParams: SearchParams }) {
-  const supabase = createSupabaseServerClient();
-  const { data: { session } } = await supabase.auth.getSession();
+  const authClient = createSupabaseServerClient();
+  const { data: { session } } = await authClient.auth.getSession();
   if (!session) redirect('/login');
 
   const page = Math.max(1, Number(searchParams.page ?? 1));
   const limit = 20;
   const offset = (page - 1) * limit;
 
+  const supabase = createServiceRoleClient();
   const { data: submissions, count } = await adminListSubmissions(supabase, {
     riskLevel: searchParams.risk as RiskLevel | undefined,
     from: searchParams.from,

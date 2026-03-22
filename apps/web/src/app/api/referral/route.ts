@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createServiceRoleClient } from '@/lib/supabase-server';
 import sgMail from '@sendgrid/mail';
+import type { QuestionnaireSubmission } from '@hassan-sads/db';
 
 const ReferralSchema = z.object({
   submissionId: z.string().uuid(),
@@ -24,11 +25,12 @@ export async function POST(request: NextRequest) {
   const { submissionId } = parsed.data;
   const supabase = createServiceRoleClient();
 
-  const { data: submission } = await supabase
+  const { data: rawSubmission } = await supabase
     .from('questionnaire_submissions')
     .select('*, question_responses(*)')
     .eq('id', submissionId)
     .single();
+  const submission = rawSubmission as QuestionnaireSubmission | null;
 
   if (!submission) return NextResponse.json({ error: 'Submission not found' }, { status: 404 });
 
