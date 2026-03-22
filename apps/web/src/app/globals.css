@@ -35,3 +35,66 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font);
 }
+
+/* ── Phone frame (desktop: centred mockup, mobile: full-screen) ─────────── */
+
+.phone-outer {
+  min-height: 100vh;
+  background: #0E0E22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  font-family: var(--font);
+}
+
+.phone-frame {
+  width: 100%;
+  max-width: 390px;
+  background: #fff;
+  border-radius: 44px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+  min-height: 780px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.phone-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px 0;
+  flex-shrink: 0;
+}
+
+/* On a real phone: strip the frame, go full-screen */
+@media (max-width: 640px) {
+  .phone-outer {
+    background: #fff;
+    padding: 0;
+    align-items: stretch;
+    display: block;
+  }
+
+  .phone-frame {
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100svh;
+    min-height: 100vh;
+  }
+
+  /* Hide the fake status bar — the real OS one takes over */
+  .phone-status-bar {
+    display: none;
+  }
+}
+
+/* ── Dashboard (admin portal) – unchanged full-width layout ─────────────── */
+.dashboard-layout {
+  min-height: 100vh;
+  background: var(--surface);
+  font-family: var(--font);
+}
